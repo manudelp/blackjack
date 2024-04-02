@@ -1,328 +1,335 @@
-@import url('../node_modules/normalize.css/normalize.css');
+@import url("../node_modules/normalize.css/normalize.css");
 
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #0d0f14;
+  font-family: "Poppins", sans-serif;
+  background-color: #0d0f14;
 }
 
 /* TABLE */
 .table {
-    width: 960px;
-    height: 540px;
-    margin: 0 auto;
-    background-image: url('../assets/img/texture.jpg');
-    background-size: cover;
-    background-size: 30%;
-    border-radius: 0 0 960px 960px;
-    border: 12px solid #5b3a2a;
-    box-shadow: inset 0 0 5px #000;
-    border-top: 0;
-    
-    position: relative;
+  width: 960px;
+  height: 540px;
+  margin: 0 auto;
+  background-image: url("../assets/img/texture.jpg");
+  background-size: cover;
+  background-size: 30%;
+  border-radius: 0 0 960px 960px;
+  border: 12px solid #5b3a2a;
+  box-shadow: inset 0 0 5px #000;
+  border-top: 0;
+
+  position: relative;
 }
 
 .deck {
-    width: 50px;
-    height: 75px;
-    border: 1px solid black;
-    background-color: #000000;
-    opacity: 1;
-    background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #000000 7px ), repeating-linear-gradient( #8b000055, #8b0000 );
-    border-radius: 5px;
-    position: absolute;
-    top: 5%;
-    right: 5%;
+  width: 50px;
+  height: 75px;
+  border: 1px solid black;
+  background-color: #000000;
+  opacity: 1;
+  background-image: repeating-radial-gradient(
+      circle at 0 0,
+      transparent 0,
+      #000000 7px
+    ),
+    repeating-linear-gradient(#8b000055, #8b0000);
+  border-radius: 5px;
+  position: absolute;
+  top: 5%;
+  right: 5%;
 }
 
 .hand {
-    display: flex;
-    justify-content: center;
-    gap: -25px;
-    align-items: center;
-    position: absolute;
-    top: 5%;
-    left: 0;
-    right: 0;
-    margin: auto;
+  display: flex;
+  justify-content: center;
+  gap: -25px;
+  align-items: center;
+  position: absolute;
+  top: 5%;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 .passed {
-    transform: translateX(-50%) translateY(1%) rotate(15deg);
+  transform: translateX(-50%) translateY(1%) rotate(15deg);
 }
 
 .player {
-    top: unset;
-    bottom: 25%;
+  top: unset;
+  bottom: 25%;
 }
 
 .card {
-    width: 50px;
-    height: 75px;
-    padding: 5px;
-    background-color: white;
-    border: 1px solid white;
-    opacity: 1;
-    border-radius: 5px;
-    font-family: 'Times New Roman', Times, serif;
+  width: 50px;
+  height: 75px;
+  padding: 5px;
+  background-color: white;
+  border: 1px solid white;
+  opacity: 1;
+  border-radius: 5px;
+  font-family: "Times New Roman", Times, serif;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card .number {
-    font-size: 12px;
-    text-align: left;
+  font-size: 12px;
+  text-align: left;
 }
 
 .card .suit {
-    font-size: 24px;
-    text-align: center;
+  font-size: 24px;
+  text-align: center;
 }
 
 .number--sideways {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .table-bets {
-    width: 150px;
-    height: 75px;
-    background-color: #26732375;
-    border: 2px solid #1e5f1c;
-    backdrop-filter: blur(5px);
-    border-radius: 18px;
-    position: absolute;
-    bottom: 5%;
-    left: 0;
-    right: 0;
-    margin: auto;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+  width: 150px;
+  height: 75px;
+  background-color: #26732375;
+  border: 2px solid #1e5f1c;
+  backdrop-filter: blur(5px);
+  border-radius: 18px;
+  position: absolute;
+  bottom: 5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .bet {
-    width: 25px;
-    height: 25px;
-    border: 2px dashed white;
-    background-color: #2B2B2B;
-    color: white;
-    border-radius: 50%;
-    font-size: 8px;
-    display: grid;
-    place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 2px dashed white;
+  background-color: #2b2b2b;
+  color: white;
+  border-radius: 50%;
+  font-size: 8px;
+  display: grid;
+  place-items: center;
 }
 
 .bet p {
-    text-align: center;
-    margin: 0;
+  text-align: center;
+  margin: 0;
 }
 
 .bet5 {
-    background-color: #c21212;
+  background-color: #c21212;
 }
 
 .bet10 {
-    background-color: #1178ba;
+  background-color: #1178ba;
 }
 
 .bet25 {
-    background-color: #1e8c09;
+  background-color: #1e8c09;
 }
 
 .bet50 {
-    background-color: #db9905;
+  background-color: #db9905;
 }
 
 .bet100 {
-    background-color: #2B2B2B;
+  background-color: #2b2b2b;
 }
 
 .balance {
-    position: absolute;
-    top: 5%;
-    left: 5%;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: start;
-    color: #5e81d3;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: start;
+  color: #5e81d3;
+  z-index: 2;
 }
 
 .hand-value {
-    width: 300px;
-    position: absolute;
-    top: 5%;
-    right: 5%;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    color: #5e81d3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: #5e81d3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
 }
 
 .values {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    gap: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
 }
 
 .bets {
-    width: 30%;
-    height: 125px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    margin: auto;
-    margin-top: 1%;
-    color: white;
+  width: 30%;
+  height: 125px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: auto;
+  margin-top: 1%;
+  color: white;
 }
 
 .bets .sign {
-    width: 960px;
-    height: 60vh;
-    border-radius: 0 0 960px 960px;
-    position: absolute;
-    top: 0;
-    font-size: 24px;
-    font-weight: bold;
-    background-color: #ff0000c5;
-    backdrop-filter: blur(5px);
-    border-top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 960px;
+  height: 540px;
+  border-radius: 0 0 960px 960px;
+  position: absolute;
+  top: 0;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #ff0000c5;
+  backdrop-filter: blur(5px);
+  border-top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sign h2 {
-    text-align: center;
-    margin-bottom: 50px;
+  text-align: center;
+  margin-bottom: 50px;
 }
 
-
 .bets .preselected {
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
 .bets .preselected button {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(43, 49, 63, 0.5);
-    backdrop-filter: blur(5px);
-    color: #536286;
-    border: 2px solid #5e81d3;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: .15s;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(43, 49, 63, 0.5);
+  backdrop-filter: blur(5px);
+  color: #536286;
+  border: 2px solid #5e81d3;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.15s;
 }
 
 .bets .preselected button:hover {
-    background-color: rgba(43, 49, 63, 0.7);
-    color: white;
-    border: 2px solid white;
+  background-color: rgba(43, 49, 63, 0.7);
+  color: white;
+  border: 2px solid white;
 }
 
 .bets .custom {
-    width: 100%;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .bets .custom input {
-    width: 80%;
-    height: 100%;
-    background-color: rgba(43, 49, 63, 0.5);
-    backdrop-filter: blur(5px);
-    color: #536286;
-    border: 2px solid #5e81d3;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 5px;
-    padding: 0 15px;
+  width: 80%;
+  height: 100%;
+  background-color: rgba(43, 49, 63, 0.5);
+  backdrop-filter: blur(5px);
+  color: #536286;
+  border: 2px solid #5e81d3;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 0 15px;
 }
 
 .bets .custom input::placeholder {
-    color: #536286;
+  color: #536286;
 }
 
 .bets .custom input:focus {
-    outline: none;
-    border: 2px solid white;
+  outline: none;
+  border: 2px solid white;
 }
 
 .bets .custom button {
-    width: 20%;
-    height: 100%;
-    background-color: #5e81d3;
-    border: 2px solid #5e81d3;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: .15s;
+  width: 20%;
+  height: 100%;
+  background-color: #5e81d3;
+  border: 2px solid #5e81d3;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.15s;
 }
 
 .bets .custom button:hover {
-    background-color: #5e81d3e6;
-    color: white;
-    border: 2px solid white;
+  background-color: #5e81d3e6;
+  color: white;
+  border: 2px solid white;
 }
 
 .actions {
-    width: 400px;
-    height: 100px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 20px auto;
+  width: 400px;
+  height: 100px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 20px auto;
 }
 
 .actions button {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(43, 49, 63, 0.5);
-    backdrop-filter: blur(5px);
-    color: #536286;
-    font-size: 24px;
-    border: 2px solid #536286;
-    border-radius: 5px;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-weight: bold;
-    transition: .15s;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(43, 49, 63, 0.5);
+  backdrop-filter: blur(5px);
+  color: #536286;
+  font-size: 24px;
+  border: 2px solid #536286;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: 0.15s;
 }
 
 .actions button:hover {
-    background-color: rgba(43, 49, 63, 0.7);
-    color: white;
-    border: 2px solid white;
+  background-color: rgba(43, 49, 63, 0.7);
+  color: white;
+  border: 2px solid white;
 }
 
 .actions button:active {
-    background-color: #5e81d3e6;
-    color: white;
-    border: 2px solid white;
+  background-color: #5e81d3e6;
+  color: white;
+  border: 2px solid white;
 }
