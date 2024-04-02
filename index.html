@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+    <link rel="icon" href="assets/img/icon.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="table">
+        <div class="deck"></div>
+
+        <div class="hand dealer">
+            <div class="card">
+                <div class="number">A</div>
+                <div class="suit">♥</div>
+                <div class="number number--sideways">A</div>
+            </div>
+            <div class="card">
+                <div class="number">K</div>
+                <div class="suit">♦</div>
+                <div class="number number--sideways">k</div>
+            </div>
+        </div>
+        
+        <div class="hand player">
+            <div class="card">
+                <div class="number">A</div>
+                <div class="suit">♥</div>
+                <div class="number number--sideways">A</div>
+            </div>
+            <div class="card">
+                <div class="number">8</div>
+                <div class="suit">♠</div>
+                <div class="number number--sideways">A</div>
+            </div>
+            <div class="card passed">
+                <div class="number">8</div>
+                <div class="suit">♠</div>
+                <div class="number number--sideways">A</div>
+            </div>
+        </div>
+
+        <div class="table-bets">
+            <div class="bet bet5"><p>5</p></div>
+            <div class="bet bet10"><p>10</p></div>
+            <div class="bet bet25"><p>25</p></div>
+            <div class="bet bet50"><p>50</p></div>
+            <div class="bet bet100"><p>100</p></div>
+        </div>
+    </div>
+
+    <div class="balance">
+        <h4>Balance</h4>
+        <h2 id="balance">NaN</h2><span id="currency">USD</span>
+    </div>
+
+    <div class="hand-value">
+        <h2>Hand values</h2>
+        <div class="values">
+            <div class="dealer">
+                <h4>Dealer</h4>
+                <h2 id="dealer-value">0</h2>
+            </div>
+            <div class="player">
+                <h4>Player</h4>
+                <h2 id="player-value">0</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="bets">
+        <div class="sign">
+            <h2>Place your bets in order to play</h2>
+        </div>
+
+        <div class="preselected">
+            <button class="btn" id="bet5">5 <span>USD</span></button>
+            <button class="btn" id="bet10">10 <span>USD</span></button>
+            <button class="btn" id="bet25">25 <span>USD</span></button>
+            <button class="btn" id="bet50">50 <span>USD</span></button>
+            <button class="btn" id="bet100">100 <span>USD</span></button>
+        </div>
+        <div class="custom">
+            <input type="number" id="customBet" placeholder="Custom Bet">
+            <button class="btn" id="bet">Bet</button>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn" id="hit">Hit</button>
+        <button class="btn" id="stand">Stand</button>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script src="js/bets.js"></script>
+</body>
+</html>
