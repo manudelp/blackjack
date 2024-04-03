@@ -57,7 +57,8 @@
 
     <div class="balance">
         <h4>Balance</h4>
-        <h2 id="balance">NaN</h2><span id="currency">USD</span>
+        <h2 class="balance-value"><div>$<span id="balance">0</span></div> <span id="currency">USD</span></h2>
+        <button class="balance-button" id="addBalanceBtn" onclick="addBalance();">Add balance</button>
     </div>
 
     <div class="hand-value">
@@ -74,21 +75,27 @@
         </div>
     </div>
 
-    <div class="bets">
-        <div class="sign">
+    <div class="bets" id="bets">
+        <div class="sign" id="sign">
             <h2>Place your bets in order to play</h2>
         </div>
 
-        <div class="preselected">
-            <button class="btn" id="bet5">5 <span>USD</span></button>
-            <button class="btn" id="bet10">10 <span>USD</span></button>
-            <button class="btn" id="bet25">25 <span>USD</span></button>
-            <button class="btn" id="bet50">50 <span>USD</span></button>
-            <button class="btn" id="bet100">100 <span>USD</span></button>
-        </div>
-        <div class="custom">
-            <input type="number" id="customBet" placeholder="Custom Bet">
-            <button class="btn" id="bet">Bet</button>
+        <div class="betButtons">
+            <button class="clearbet" id="clearBet">Clear Bet</button>
+            <div class="betValues">
+                <div class="preselected">
+                    <button class="btn" id="bet5">5 <span>USD</span></button>
+                    <button class="btn" id="bet10">10 <span>USD</span></button>
+                    <button class="btn" id="bet25">25 <span>USD</span></button>
+                    <button class="btn" id="bet50">50 <span>USD</span></button>
+                    <button class="btn" id="bet100">100 <span>USD</span></button>
+                </div>
+                <div class="custom">
+                    <input type="number" id="customBet" placeholder="Custom Bet">
+                    <button class="btn" id="bet">Bet</button>
+                </div>
+            </div>
+            <button class="repeatbet" id="repeatBet">Repeat Bet</button>
         </div>
     </div>
 
@@ -98,6 +105,5 @@
     </div>
     
     <script src="js/main.js"></script>
-    <script src="js/bets.js"></script>
 </body>
 </html>
