@@ -1,11 +1,14 @@
+const MAX_BET = 3000;
+
+
+
+
 function addBalance() {
     var addBalanceBtn = document.getElementById("addBalance");
-    var balance = document.getElementById("balance");
     var balanceAmount = 0;
 
 
     balanceAmount += parseInt(prompt("Enter amount to add: "));
-    localStorage.setItem("balance", balanceAmount);
     balance.innerHTML = balanceAmount;
 
     return balanceAmount;
@@ -17,15 +20,22 @@ function placeBets(balance) {
     var bet25 = document.getElementById("bet25");
     var bet50 = document.getElementById("bet50");
     var bet100 = document.getElementById("bet100");
+    var bet500 = document.getElementById("bet500");
 
+    var currentBet = document.getElementById("currentBet");
     var betAmount = 0;
 
-    var tableBets = document.querySelector(".table-bets")
+    function updateCurrentBet() {
+        currentBet.innerHTML = betAmount;
+    }
+
+    var tableBets = document.querySelector(".table-bets");
     var tableBet5 = '<div class="bet bet5"><p>5</p></div>';
     var tableBet10 = '<div class="bet bet10"><p>10</p></div>';
     var tableBet25 = '<div class="bet bet25"><p>25</p></div>';
     var tableBet50 = '<div class="bet bet50"><p>50</p></div>';
     var tableBet100 = '<div class="bet bet100"><p>100</p></div>';
+    var tableBet500 = '<div class="bet bet500"><p>500</p></div>';
 
     function clearTableBets() {
         tableBets.innerHTML = "";
@@ -36,6 +46,10 @@ function placeBets(balance) {
         
         var remainingBetAmount = betAmount;
     
+        while (remainingBetAmount >= 500) {
+            tableBets.innerHTML += tableBet500;
+            remainingBetAmount -= 500;
+        }
         while (remainingBetAmount >= 100) {
             tableBets.innerHTML += tableBet100;
             remainingBetAmount -= 100;
@@ -56,64 +70,111 @@ function placeBets(balance) {
             tableBets.innerHTML += tableBet5;
             remainingBetAmount -= 5;
         }
-    }    
+    }
+
+    var balance = document.getElementById("balance");
+    var balanceAmount = parseInt(localStorage.getItem("balance")) || 0;
+    var betAmount = 0;
+
+    function updateBalance() {
+        balance.innerHTML = balanceAmount - betAmount;
+    }
+
+    function updateCurrentBet() {
+        currentBet.innerHTML = betAmount;
+    }
 
     bet5.addEventListener("click", function() {
-        betAmount += 5;
-        updateTableBets();
+        if (balanceAmount >= 5 && betAmount + 5 <= balanceAmount && betAmount < MAX_BET) {
+            betAmount += 5;
+            updateBalance();
+            updateTableBets();
+            updateCurrentBet();
+        }
     });
 
     bet10.addEventListener("click", function() {
-        betAmount += 10;
-        updateTableBets();
+        if (balanceAmount >= 10 && betAmount + 10 <= balanceAmount && betAmount < MAX_BET) {
+            betAmount += 10;
+            updateBalance();
+            updateTableBets();
+            updateCurrentBet();
+        }
     });
 
     bet25.addEventListener("click", function() {
-        betAmount += 25;
-        updateTableBets();
+        if (balanceAmount >= 25 && betAmount + 25 <= balanceAmount && betAmount < MAX_BET) {
+            betAmount += 25;
+            updateBalance();
+            updateTableBets();
+            updateCurrentBet();
+        }
     });
 
     bet50.addEventListener("click", function() {
-        betAmount += 50;
-        updateTableBets();
+        if (balanceAmount >= 50 && betAmount + 50 <= balanceAmount && betAmount < MAX_BET) {
+            betAmount += 50;
+            updateBalance();
+            updateTableBets();
+            updateCurrentBet();
+        }
     });
 
     bet100.addEventListener("click", function() {
-        betAmount += 100;
-        updateTableBets();
+        if (balanceAmount >= 100 && betAmount + 100 <= balanceAmount && betAmount < MAX_BET) {
+            betAmount += 100;
+            updateBalance();
+            updateTableBets();
+            updateCurrentBet();
+        }
+    });
+
+    bet500.addEventListener("click", function() {
+        if (balanceAmount >= 500 && betAmount + 500 <= balanceAmount && betAmount < MAX_BET) {
+            betAmount += 500;
+            updateBalance();
+            updateTableBets();
+            updateCurrentBet();
+        }
     });
 
     var clearBet = document.getElementById("clearBet");
-    clearBet.addEventListener("click", function() {
-        betAmount = 0;
-        tableBets.style.opacity = "0";
-        setTimeout(() => {
-            clearTableBets();
-        }, 1000);
-    });
+    var betButton = document.getElementById("bet");
 
-    var repeatBet = document.getElementById("repeatBet");
-    repeatBet.addEventListener("click", function() {
-        betAmount *= 2;
-    });
-
-    var customBet = document.getElementById("customBet");
-    var betBtn = document.getElementById("bet");
-
-    customBet.addEventListener("keyup", function() {
-        betAmount = parseInt(this.value);
-    });
-
-    betBtn.addEventListener("click", function() {
-        var balance = document.getElementById("balance").innerHTML;
-        var betAmount = document.getElementById("betAmount").innerHTML;
-
-        if (parseInt(balance) < parseInt(betAmount)) {
-            alert("Insufficient balance!");
-        } else {
+    betButton.addEventListener("click", function() {
+        if (betAmount > 0  && betAmount <= balanceAmount) {
             playBlackjack();
         }
     });
+
+    clearBet.addEventListener("click", function() {
+        clearTableBets();
+        betAmount = 0;
+        updateBalance();
+        updateCurrentBet();
+    });
+
+    var customBet = document.getElementById("customBet");
+
+    betButton.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            var customBetAmount = parseInt(customBet.value);
+            if (balanceAmount >= customBetAmount && betAmount + customBetAmount <= balanceAmount && betAmount < MAX_BET) {
+                balanceAmount -= customBetAmount;
+                betAmount += customBetAmount;
+                updateBalance();
+                updateTableBets();
+                updateCurrentBet();
+            }
+            customBet.value = "";
+        }
+    });
+    betButton.addEventListener("click", function() {
+        if (betAmount > 0  && betAmount <= balanceAmount) {
+            playBlackjack();
+        }
+    });
+
 }
 
 function shuffleDeck(deck) {
@@ -128,8 +189,74 @@ function dealCard(deck) {
 }
 
 
-placeBets(addBalance());
+function clearCards() {
+    var playerHand = document.querySelector(".hand.player");
+    var dealerHand = document.querySelector(".hand.dealer");
+
+    playerHand.innerHTML = "";
+    dealerHand.innerHTML = "";
+}
+
+function startGame() {
+    clearCards();
+
+    var betBlock = document.getElementById("bets");
+    betBlock.style.pointerEvents = "none";
+    betBlock.style.opacity = "0";
+
+    var betButtons = document.querySelector(".betButtons");
+    betButtons.style.pointerEvents = "none";
+    betButtons.style.opacity = "0";
+    betButtons.style.transform = "translateY(100%)";
+
+    var betSign = document.getElementById("sign");
+    betSign.style.opacity = "0";
+    setTimeout(function() {
+        betSign.style.display = "none";
+    }, 500);
+
+    var actions = document.querySelector(".actions");
+    actions.style.opacity = "1";
+    actions.style.transform = "translateY(0)";
+
+    var handValues = document.querySelector(".hand-value");
+    handValues.style.opacity = "1";
+    handValues.style.pointerEvents = "auto";
+}
+
+function updateHandValue(hand, handValueElement) {
+    var handValue = 0;
+    var hasAce = false;
+
+    hand.forEach(card => {
+        if (card.value === 'J' || card.value === 'Q' || card.value === 'K') {
+            handValue += 10;
+        } else if (card.value === 'A') {
+            hasAce = true;
+            handValue += 11;
+        } else {
+            handValue += parseInt(card.value);
+        }
+    });
+
+    if (hasAce && handValue > 21) {
+        handValue -= 10;
+    }
+
+    if (hasAce && card.value === 'J' || card.value === 'Q' || card.value === 'K') {
+        handValue = 'BLACKJACK';
+    }
+
+    handValueElement.innerHTML = handValue;
+    return handValue;
+}
+
+
+placeBets(10000); //addBalance()
+
 function playBlackjack() {
+    startGame();
+
     const deck = [
         { value: '2', suit: '♥' }, { value: '3', suit: '♥' }, { value: '4', suit: '♥' }, { value: '5', suit: '♥' },
         { value: '6', suit: '♥' }, { value: '7', suit: '♥' }, { value: '8', suit: '♥' }, { value: '9', suit: '♥' },
@@ -149,4 +276,26 @@ function playBlackjack() {
         { value: 'A', suit: '♠' }
     ];
     shuffleDeck(deck);
+
+    var playerHand = [];
+    var playerHandElement = document.querySelector(".hand.player");
+
+    function dealCardToPlayer() {
+        var card = dealCard(deck);
+        playerHand.push(card);
+
+        var cardElement = document.createElement("div");
+        cardElement.classList.add("card");
+        cardElement.innerHTML = `
+            <div class="number">${card.value}</div>
+            <div class="suit">${card.suit}</div>
+            <div class="number number--sideways">${card.value}</div>
+        `;
+        playerHandElement.appendChild(cardElement);
+
+        updateHandValue(playerHand, document.getElementById("player-value"));
+    }
+
+    dealCardToPlayer();
+    
 }
