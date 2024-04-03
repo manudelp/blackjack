@@ -1,17 +1,13 @@
 const MAX_BET = 3000;
 
-
-
-
+// Util function to add balance
 function addBalance() {
-    var addBalanceBtn = document.getElementById("addBalance");
-    var balanceAmount = 0;
-
-
-    balanceAmount += parseInt(prompt("Enter amount to add: "));
-    balance.innerHTML = balanceAmount;
-
-    return balanceAmount;
+    // Ensure balanceAmount is a number
+    const balanceAmount = parseInt(localStorage.getItem("balance")) || 0;
+    const newBalance = balanceAmount + parseInt(prompt("Enter amount to add: "));
+    localStorage.setItem("balance", newBalance);
+    document.getElementById("balance").innerHTML = newBalance;
+    return newBalance;
 }
 
 function placeBets(balance) {
@@ -139,14 +135,6 @@ function placeBets(balance) {
     });
 
     var clearBet = document.getElementById("clearBet");
-    var betButton = document.getElementById("bet");
-
-    betButton.addEventListener("click", function() {
-        if (betAmount > 0  && betAmount <= balanceAmount) {
-            playBlackjack();
-        }
-    });
-
     clearBet.addEventListener("click", function() {
         clearTableBets();
         betAmount = 0;
@@ -154,22 +142,19 @@ function placeBets(balance) {
         updateCurrentBet();
     });
 
-    var customBet = document.getElementById("customBet");
-
-    betButton.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            var customBetAmount = parseInt(customBet.value);
-            if (balanceAmount >= customBetAmount && betAmount + customBetAmount <= balanceAmount && betAmount < MAX_BET) {
-                balanceAmount -= customBetAmount;
-                betAmount += customBetAmount;
-                updateBalance();
-                updateTableBets();
-                updateCurrentBet();
-            }
-            customBet.value = "";
+    customBet.addEventListener("click", function() {
+        var customBetAmount = parseInt(customBet.value);
+        if (balanceAmount >= customBetAmount && betAmount + customBetAmount <= balanceAmount && betAmount < MAX_BET) {
+            balanceAmount -= customBetAmount;
+            betAmount += customBetAmount;
+            updateBalance();
+            updateTableBets();
+            updateCurrentBet();
         }
     });
-    betButton.addEventListener("click", function() {
+
+    var bet = document.getElementById("bet");
+    bet.addEventListener("click", function() {
         if (betAmount > 0  && betAmount <= balanceAmount) {
             playBlackjack();
         }
@@ -242,11 +227,7 @@ function updateHandValue(hand, handValueElement) {
     if (hasAce && handValue > 21) {
         handValue -= 10;
     }
-
-    if (hasAce && card.value === 'J' || card.value === 'Q' || card.value === 'K') {
-        handValue = 'BLACKJACK';
-    }
-
+    
     handValueElement.innerHTML = handValue;
     return handValue;
 }
