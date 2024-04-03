@@ -1,5 +1,47 @@
 const MAX_BET = 3000;
 
+const deck = [
+    { value: '2', suit: '♥' }, { value: '3', suit: '♥' }, { value: '4', suit: '♥' }, { value: '5', suit: '♥' },
+    { value: '6', suit: '♥' }, { value: '7', suit: '♥' }, { value: '8', suit: '♥' }, { value: '9', suit: '♥' },
+    { value: '10', suit: '♥' }, { value: 'J', suit: '♥' }, { value: 'Q', suit: '♥' }, { value: 'K', suit: '♥' },
+    { value: 'A', suit: '♥' },
+    { value: '2', suit: '♦' }, { value: '3', suit: '♦' }, { value: '4', suit: '♦' }, { value: '5', suit: '♦' },
+    { value: '6', suit: '♦' }, { value: '7', suit: '♦' }, { value: '8', suit: '♦' }, { value: '9', suit: '♦' },
+    { value: '10', suit: '♦' }, { value: 'J', suit: '♦' }, { value: 'Q', suit: '♦' }, { value: 'K', suit: '♦' },
+    { value: 'A', suit: '♦' },
+    { value: '2', suit: '♣' }, { value: '3', suit: '♣' }, { value: '4', suit: '♣' }, { value: '5', suit: '♣' },
+    { value: '6', suit: '♣' }, { value: '7', suit: '♣' }, { value: '8', suit: '♣' }, { value: '9', suit: '♣' },
+    { value: '10', suit: '♣' }, { value: 'J', suit: '♣' }, { value: 'Q', suit: '♣' }, { value: 'K', suit: '♣' },
+    { value: 'A', suit: '♣' },
+    { value: '2', suit: '♠' }, { value: '3', suit: '♠' }, { value: '4', suit: '♠' }, { value: '5', suit: '♠' },
+    { value: '6', suit: '♠' }, { value: '7', suit: '♠' }, { value: '8', suit: '♠' }, { value: '9', suit: '♠' },
+    { value: '10', suit: '♠' }, { value: 'J', suit: '♠' }, { value: 'Q', suit: '♠' }, { value: 'K', suit: '♠' },
+    { value: 'A', suit: '♠' }
+];
+
+
+// Variables 
+var displayMessage = document.querySelector(".message");
+
+var hand = [];
+var handElement = document.querySelector(".hand");
+
+var playerHand = [];
+var playerHandElement = document.querySelector(".hand.player");
+
+var dealerHand = [];
+var dealerHandElement = document.querySelector(".hand.dealer");
+
+
+function showMessage(message){
+    displayMessage.style.opacity = "1";
+    document.getElementById("message").innerHTML = message;
+
+    setTimeout(function(){
+        displayMessage.style.opacity = "0";
+    }, 3000);
+}
+
 // Util function to add balance
 function addBalance() {
     // Ensure balanceAmount is a number
@@ -7,7 +49,30 @@ function addBalance() {
     const newBalance = balanceAmount + parseInt(prompt("Enter amount to add: "));
     localStorage.setItem("balance", newBalance);
     document.getElementById("balance").innerHTML = newBalance;
+    window.location.reload();
     return newBalance;
+}
+
+function eraseBalance() {
+    localStorage.setItem("balance", 0);
+    document.getElementById("balance").innerHTML = 0;
+    window.location.reload();
+}
+
+function clearBets() {
+    clearTableBets();
+    betAmount = 0;
+    updateBalance();
+    updateCurrentBet();
+}
+
+function clearTableBets() {
+    tableBets.innerHTML = "";
+}
+
+
+function updateCurrentBet() {
+    currentBet.innerHTML = betAmount;
 }
 
 function placeBets(balance) {
@@ -21,10 +86,6 @@ function placeBets(balance) {
     var currentBet = document.getElementById("currentBet");
     var betAmount = 0;
 
-    function updateCurrentBet() {
-        currentBet.innerHTML = betAmount;
-    }
-
     var tableBets = document.querySelector(".table-bets");
     var tableBet5 = '<div class="bet bet5"><p>5</p></div>';
     var tableBet10 = '<div class="bet bet10"><p>10</p></div>';
@@ -33,9 +94,7 @@ function placeBets(balance) {
     var tableBet100 = '<div class="bet bet100"><p>100</p></div>';
     var tableBet500 = '<div class="bet bet500"><p>500</p></div>';
 
-    function clearTableBets() {
-        tableBets.innerHTML = "";
-    }
+
 
     function updateTableBets() {
         clearTableBets();
@@ -134,14 +193,6 @@ function placeBets(balance) {
         }
     });
 
-    var clearBet = document.getElementById("clearBet");
-    clearBet.addEventListener("click", function() {
-        clearTableBets();
-        betAmount = 0;
-        updateBalance();
-        updateCurrentBet();
-    });
-
     customBet.addEventListener("click", function() {
         var customBetAmount = parseInt(customBet.value);
         if (balanceAmount >= customBetAmount && betAmount + customBetAmount <= balanceAmount && betAmount < MAX_BET) {
@@ -152,6 +203,12 @@ function placeBets(balance) {
             updateCurrentBet();
         }
     });
+
+    var clearBet = document.getElementById("clearBet");
+    clearBet.addEventListener("click", function() {
+        clearBets();
+    });
+
 
     var bet = document.getElementById("bet");
     bet.addEventListener("click", function() {
@@ -171,6 +228,18 @@ function shuffleDeck(deck) {
 
 function dealCard(deck) {
     return deck.pop();
+}
+
+function showActionButtons() {
+    var actions = document.querySelector(".actions");
+    actions.style.opacity = "1";
+    actions.style.transform = "translateY(0)";
+}
+
+function hideActionButtons() {
+    var actions = document.querySelector(".actions");
+    actions.style.opacity = "0";
+    actions.style.transform = "translateY(100%)";
 }
 
 
@@ -200,13 +269,45 @@ function startGame() {
         betSign.style.display = "none";
     }, 500);
 
-    var actions = document.querySelector(".actions");
-    actions.style.opacity = "1";
-    actions.style.transform = "translateY(0)";
-
     var handValues = document.querySelector(".hand-value");
     handValues.style.opacity = "1";
     handValues.style.pointerEvents = "auto";
+}
+
+function dealCardToPlayer() {
+    var card = dealCard(deck);
+    playerHand.push(card);
+
+    var cardElement = document.createElement("div");
+    cardElement.classList.add("card");
+    cardElement.style.animation = "dealCardPlayer 0.5s ease-in-out forwards";
+    cardElement.innerHTML = `
+        <div class="number">${card.value}</div>
+        <div class="suit">${card.suit}</div>
+        <div class="number number--sideways">${card.value}</div>
+    `;
+    handElement.appendChild(cardElement);
+    playerHandElement.appendChild(cardElement);
+
+    updateHandValue(playerHand, document.getElementById("player-value"));
+}
+
+function dealCardToDealer() {
+    var card = dealCard(deck);
+    dealerHand.push(card);
+
+    var cardElement = document.createElement("div");
+    cardElement.classList.add("card");
+    cardElement.style.animation = "dealCardDealer 0.5s ease-in-out forwards";
+    cardElement.innerHTML = `
+        <div class="number">${card.value}</div>
+        <div class="suit">${card.suit}</div>
+        <div class="number number--sideways">${card.value}</div>
+    `;
+    handElement.appendChild(cardElement);
+    dealerHandElement.appendChild(cardElement);
+
+    updateHandValue(dealerHand, document.getElementById("dealer-value"));
 }
 
 function updateHandValue(hand, handValueElement) {
@@ -232,51 +333,119 @@ function updateHandValue(hand, handValueElement) {
     return handValue;
 }
 
+function playerTurn() {
+    showActionButtons();
 
-placeBets(10000); //addBalance()
+    var hit = document.getElementById("hit");
+    var stand = document.getElementById("stand");
+
+    hit.addEventListener("click", function() {
+        dealCardToPlayer();
+        var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
+        if (playerHand.some(card => card.value === 'A') && playerHand.some(card => card.value === 'J' || card.value === 'Q' || card.value === 'K')) {
+            showMessage("Blackjack!");
+            hideActionButtons();
+            Blackjack();
+            setTimeout(endGame, 5000);
+        } else if (playerValue > 21) {
+            showMessage("Busted!");
+            hideActionButtons();
+            dealerWins();
+            setTimeout(endGame, 5000);
+        }
+    });
+
+    stand.addEventListener("click", function() {
+        hideActionButtons();
+        dealerTurn();
+    });
+}
+
+function dealerTurn() {
+    var dealerValue = updateHandValue(dealerHand, document.getElementById("dealer-value"));
+    while (dealerValue < 17) {
+        dealCardToDealer();
+        dealerValue = updateHandValue(dealerHand, document.getElementById("dealer-value"));
+        setTimeout(500);
+    }
+
+    if (dealerValue > 21) {
+        showMessage("Dealer busted!");
+        playerWins();
+    } else {
+        var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
+        if (playerValue > dealerValue) {
+            showMessage("Player wins!");
+            playerWins();
+        } else if (playerValue < dealerValue) {
+            showMessage("Dealer wins!");
+            dealerWins();
+        } else {
+            showMessage("Push!");
+        }
+    }
+
+    setTimeout(endGame, 5000);
+}
+
+function endGame() {
+    clearCards();
+
+    var betBlock = document.getElementById("bets");
+    betBlock.style.pointerEvents = "auto";
+    betBlock.style.opacity = "1";
+
+    var betButtons = document.querySelector(".betButtons");
+    betButtons.style.pointerEvents = "auto";
+    betButtons.style.opacity = "1";
+    betButtons.style.transform = "translateY(0)";
+
+    var betSign = document.getElementById("sign");
+    betSign.style.display = "grid";
+    betSign.style.opacity = "1";
+
+    var handValues = document.querySelector(".hand-value");
+    handValues.style.opacity = "0";
+    handValues.style.pointerEvents = "none";
+
+    hideActionButtons();
+}
+
+
+function playerWins() {
+    var balance = parseInt(localStorage.getItem("balance"));
+    var betAmount = parseInt(document.getElementById("currentBet").innerHTML);
+    var newBalance = balance + betAmount;
+    localStorage.setItem("balance", newBalance);
+    document.getElementById("balance").innerHTML = newBalance;
+}
+
+function dealerWins() {
+    var balance = parseInt(localStorage.getItem("balance"));
+    var betAmount = parseInt(document.getElementById("currentBet").innerHTML);
+    var newBalance = balance - betAmount;
+    localStorage.setItem("balance", newBalance);
+    document.getElementById("balance").innerHTML = newBalance;
+}
+
+function Blackjack() {
+    var balance = parseInt(localStorage.getItem("balance"));
+    var betAmount = parseInt(document.getElementById("currentBet").innerHTML);
+    var newBalance = balance + betAmount * 1.5;
+    localStorage.setItem("balance", newBalance);
+    document.getElementById("balance").innerHTML = newBalance;
+}
+
+
+// Display balance
+document.getElementById("balance").innerHTML = localStorage.getItem("balance") || 0;
+
+placeBets();
 
 function playBlackjack() {
     startGame();
-
-    const deck = [
-        { value: '2', suit: '♥' }, { value: '3', suit: '♥' }, { value: '4', suit: '♥' }, { value: '5', suit: '♥' },
-        { value: '6', suit: '♥' }, { value: '7', suit: '♥' }, { value: '8', suit: '♥' }, { value: '9', suit: '♥' },
-        { value: '10', suit: '♥' }, { value: 'J', suit: '♥' }, { value: 'Q', suit: '♥' }, { value: 'K', suit: '♥' },
-        { value: 'A', suit: '♥' },
-        { value: '2', suit: '♦' }, { value: '3', suit: '♦' }, { value: '4', suit: '♦' }, { value: '5', suit: '♦' },
-        { value: '6', suit: '♦' }, { value: '7', suit: '♦' }, { value: '8', suit: '♦' }, { value: '9', suit: '♦' },
-        { value: '10', suit: '♦' }, { value: 'J', suit: '♦' }, { value: 'Q', suit: '♦' }, { value: 'K', suit: '♦' },
-        { value: 'A', suit: '♦' },
-        { value: '2', suit: '♣' }, { value: '3', suit: '♣' }, { value: '4', suit: '♣' }, { value: '5', suit: '♣' },
-        { value: '6', suit: '♣' }, { value: '7', suit: '♣' }, { value: '8', suit: '♣' }, { value: '9', suit: '♣' },
-        { value: '10', suit: '♣' }, { value: 'J', suit: '♣' }, { value: 'Q', suit: '♣' }, { value: 'K', suit: '♣' },
-        { value: 'A', suit: '♣' },
-        { value: '2', suit: '♠' }, { value: '3', suit: '♠' }, { value: '4', suit: '♠' }, { value: '5', suit: '♠' },
-        { value: '6', suit: '♠' }, { value: '7', suit: '♠' }, { value: '8', suit: '♠' }, { value: '9', suit: '♠' },
-        { value: '10', suit: '♠' }, { value: 'J', suit: '♠' }, { value: 'Q', suit: '♠' }, { value: 'K', suit: '♠' },
-        { value: 'A', suit: '♠' }
-    ];
     shuffleDeck(deck);
-
-    var playerHand = [];
-    var playerHandElement = document.querySelector(".hand.player");
-
-    function dealCardToPlayer() {
-        var card = dealCard(deck);
-        playerHand.push(card);
-
-        var cardElement = document.createElement("div");
-        cardElement.classList.add("card");
-        cardElement.innerHTML = `
-            <div class="number">${card.value}</div>
-            <div class="suit">${card.suit}</div>
-            <div class="number number--sideways">${card.value}</div>
-        `;
-        playerHandElement.appendChild(cardElement);
-
-        updateHandValue(playerHand, document.getElementById("player-value"));
-    }
-
     dealCardToPlayer();
-    
+    setTimeout(dealCardToDealer, 500);
+    playerTurn();
 }
