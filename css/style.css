@@ -587,6 +587,48 @@ body {
     }
 }
 
+@media (max-width: 2560px) {
+  .table {
+    width: 1440px;
+    height: 810px;
+    border-radius: 0 0 1440px 1440px;
+  }
+
+  .deck {
+    width: 60px;
+    height: 90px;
+  }
+
+  .card {
+    width: 60px;
+    height: 90px;
+    padding: 5px;
+  }
+
+  .card .number {
+    font-size: 16px;
+  }
+
+  .table-bets {
+    width: 400px;
+    height: 120px;
+  }
+
+  .bet {
+    width: 40px;
+    height: 40px;
+    font-size: 12px;
+  }
+
+  .sign h1 {
+    font-size: 144px;
+  }
+
+  .sign h2 {
+    font-size: 36px;
+  }
+}
+
 @media (max-width: 768px){
     .table {
       position: absolute;
