@@ -213,7 +213,13 @@ function placeBets() {
     clearBetButton.addEventListener("click", clearBet);
 
     var repeatBetButton = document.getElementById("repeatBet");
-    repeatBetButton.addEventListener("click", repeatBet);
+    if (betAmount < balanceAmount) {
+        repeatBetButton.addEventListener("click", repeatBet);
+    } else {
+        repeatBetButton.style.color = "#cc0000";
+        repeatBetButton.style.border = "2px solid #cc0000";
+        repeatBetButton.style.pointerEvents = "none";
+    }
 
     function repeatBet() {
         betAmount = lastBet;
@@ -225,8 +231,8 @@ function placeBets() {
     var preselectedButtons = document.querySelectorAll(".preselected button");
     preselectedButtons.forEach(button => {
         if (balanceAmount < parseInt(button.innerHTML)) {
-            button.style.color = "#f16b5b";
-            button.style.border = "2px solid #f16b5b";
+            button.style.color = "#cc0000";
+            button.style.border = "2px solid #cc0000";
             button.style.pointerEvents = "none";
         }
     });
