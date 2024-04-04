@@ -512,3 +512,49 @@ body {
   color: white;
   border: 2px solid white;
 }
+
+@media (max-width: 1400px){
+    .hand-value {
+      width: 20%;
+      left: unset;
+      right: 5%;
+    }
+}
+
+@media (max-width: 768px){
+    .table {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+
+    .sign h1,
+    .sign h2 {
+      width: 90%;
+    }
+
+    .sign h1 {
+      font-size: 64px;
+    }
+
+    .sign h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 50%;
+      line-height: 1.5;
+    }
+
+    .table-bets {
+      display: none;
+    }
+
+    .betButtons{
+      display: none;
+    }
+    
+    .balance{
+      display: none;
+    }
+}

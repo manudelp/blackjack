@@ -455,3 +455,8 @@ function playBlackjack() {
     setTimeout(dealCardToDealer, 500);
     playerTurn();
 }
+
+// if maxwidth is 512px then change .sign h2 innerHTML
+if (window.matchMedia("(max-width: 768px)").matches) {
+    document.querySelector(".sign h2").innerHTML = "This game is only available on desktop devices. Please switch to a desktop device to play. Thank you! 🙏🏽";
+}
