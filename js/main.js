@@ -48,6 +48,7 @@ var bet50 = document.getElementById("bet50");
 var bet100 = document.getElementById("bet100");
 var bet500 = document.getElementById("bet500");
 
+var lastBet = localStorage.getItem("lastBet") || 0;
 var currentBet = document.getElementById("currentBet");
 var betAmount = 0;
 
@@ -109,7 +110,7 @@ function clearTableBets() {
 
 function updateCurrentBet() {
     currentBet.innerHTML = betAmount;
-}    
+}
 
 function placeBets() {
     function updateTableBets() {
@@ -211,13 +212,16 @@ function placeBets() {
     var clearBetButton = document.getElementById("clearBet");
     clearBetButton.addEventListener("click", clearBet);
 
-    var bet = document.getElementById("bet");
-    bet.addEventListener("click", function() {
-        if (betAmount > 0  && betAmount <= balanceAmount) {
-            playBlackjack();
-        }
-    });
+    var repeatBetButton = document.getElementById("repeatBet");
+    repeatBetButton.addEventListener("click", repeatBet);
 
+    function repeatBet() {
+        betAmount = lastBet;
+        displayBalance();
+        updateTableBets();
+        updateCurrentBet();
+    }    
+    
     var preselectedButtons = document.querySelectorAll(".preselected button");
     preselectedButtons.forEach(button => {
         if (balanceAmount < parseInt(button.innerHTML)) {
@@ -227,6 +231,14 @@ function placeBets() {
         }
     });
 
+    var bet = document.getElementById("bet");
+    bet.addEventListener("click", function() {
+        if (betAmount > 0  && betAmount <= balanceAmount) {
+            localStorage.setItem("lastBet", betAmount);
+            playBlackjack();
+        }
+    });
+    
 }
 
 function shuffleDeck(deck) {
