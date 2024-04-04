@@ -117,6 +117,14 @@
         <button class="btn" id="stand">Stand</button>
     </div>
 
+    <div class="copy">
+        <p>&copy; <span id="year"></span> | Created by <a href="https://manudelp.github.io" target="_blank">Manuel Delpino</a></p>
+    </div>
+    <script>
+        const year = new Date().getFullYear();
+        document.getElementById('year').textContent = year;
+    </script>
+
     <script src="js/main.js"></script>
 </body>
 </html>
