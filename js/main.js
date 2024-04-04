@@ -416,7 +416,6 @@ function endGame() {
 }
 
 function playerWins() {
-    console.log("You win!")
     var balance = parseInt(localStorage.getItem("balance"));
     var betAmount = parseInt(document.getElementById("currentBet").innerHTML);
     var newBalance = balance + betAmount;
@@ -426,8 +425,6 @@ function playerWins() {
 }
 
 function dealerWins() {
-    console.log("Dealer wins!");
-
     // Parsing balance and betAmount as numbers
     var balance = parseInt(localStorage.getItem("balance")) || 0; // Default to 0 if balance is not set
     var betAmount = parseInt(document.getElementById("currentBet").innerHTML) || 0; // Default to 0 if currentBet is not set
@@ -447,7 +444,6 @@ function dealerWins() {
 
 
 function Blackjack() {
-    console.log("Blackjack!")
     var balance = parseInt(localStorage.getItem("balance"));
     var betAmount = parseInt(document.getElementById("currentBet").innerHTML);
     var newBalance = balance + betAmount * 1.5;
