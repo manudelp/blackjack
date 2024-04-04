@@ -21,8 +21,11 @@ const deck = [
 
 
 // Variables 
+
+// Message
 var displayMessage = document.querySelector(".message");
 
+// Hands
 var hand = [];
 var handElement = document.querySelector(".hand");
 
@@ -31,6 +34,30 @@ var playerHandElement = document.querySelector(".hand.player");
 
 var dealerHand = [];
 var dealerHandElement = document.querySelector(".hand.dealer");
+
+// Balance
+var balance = document.getElementById("balance");
+var balanceAmount = parseInt(localStorage.getItem("balance")) || 0;
+var betAmount = 0;
+
+// Bets
+var bet5 = document.getElementById("bet5");
+var bet10 = document.getElementById("bet10");
+var bet25 = document.getElementById("bet25");
+var bet50 = document.getElementById("bet50");
+var bet100 = document.getElementById("bet100");
+var bet500 = document.getElementById("bet500");
+
+var currentBet = document.getElementById("currentBet");
+var betAmount = 0;
+
+var tableBets = document.querySelector(".table-bets");
+var tableBet5 = '<div class="bet bet5"><p>5</p></div>';
+var tableBet10 = '<div class="bet bet10"><p>10</p></div>';
+var tableBet25 = '<div class="bet bet25"><p>25</p></div>';
+var tableBet50 = '<div class="bet bet50"><p>50</p></div>';
+var tableBet100 = '<div class="bet bet100"><p>100</p></div>';
+var tableBet500 = '<div class="bet bet500"><p>500</p></div>';
 
 
 function showMessage(message){
@@ -59,43 +86,32 @@ function eraseBalance() {
     window.location.reload();
 }
 
-function clearBets() {
+function displayBalance() {
+    var balanceElement = document.getElementById("balance");
+    var balance = parseInt(localStorage.getItem("balance")) || 0; // Default to 0 if balance is not set
+    balanceElement.innerHTML = balance; // Update the balance displayed on the UI
+}
+
+function clearBet() {
     clearTableBets();
     betAmount = 0;
-    updateBalance();
+    displayBalance();
     updateCurrentBet();
+}
+
+function updateCurrentBet() {
+    currentBet.innerHTML = betAmount;
 }
 
 function clearTableBets() {
     tableBets.innerHTML = "";
 }
 
-
 function updateCurrentBet() {
     currentBet.innerHTML = betAmount;
-}
+}    
 
-function placeBets(balance) {
-    var bet5 = document.getElementById("bet5");
-    var bet10 = document.getElementById("bet10");
-    var bet25 = document.getElementById("bet25");
-    var bet50 = document.getElementById("bet50");
-    var bet100 = document.getElementById("bet100");
-    var bet500 = document.getElementById("bet500");
-
-    var currentBet = document.getElementById("currentBet");
-    var betAmount = 0;
-
-    var tableBets = document.querySelector(".table-bets");
-    var tableBet5 = '<div class="bet bet5"><p>5</p></div>';
-    var tableBet10 = '<div class="bet bet10"><p>10</p></div>';
-    var tableBet25 = '<div class="bet bet25"><p>25</p></div>';
-    var tableBet50 = '<div class="bet bet50"><p>50</p></div>';
-    var tableBet100 = '<div class="bet bet100"><p>100</p></div>';
-    var tableBet500 = '<div class="bet bet500"><p>500</p></div>';
-
-
-
+function placeBets() {
     function updateTableBets() {
         clearTableBets();
         
@@ -127,22 +143,10 @@ function placeBets(balance) {
         }
     }
 
-    var balance = document.getElementById("balance");
-    var balanceAmount = parseInt(localStorage.getItem("balance")) || 0;
-    var betAmount = 0;
-
-    function updateBalance() {
-        balance.innerHTML = balanceAmount - betAmount;
-    }
-
-    function updateCurrentBet() {
-        currentBet.innerHTML = betAmount;
-    }
-
     bet5.addEventListener("click", function() {
         if (balanceAmount >= 5 && betAmount + 5 <= balanceAmount && betAmount < MAX_BET) {
             betAmount += 5;
-            updateBalance();
+            displayBalance();
             updateTableBets();
             updateCurrentBet();
         }
@@ -151,7 +155,7 @@ function placeBets(balance) {
     bet10.addEventListener("click", function() {
         if (balanceAmount >= 10 && betAmount + 10 <= balanceAmount && betAmount < MAX_BET) {
             betAmount += 10;
-            updateBalance();
+            displayBalance();
             updateTableBets();
             updateCurrentBet();
         }
@@ -160,7 +164,7 @@ function placeBets(balance) {
     bet25.addEventListener("click", function() {
         if (balanceAmount >= 25 && betAmount + 25 <= balanceAmount && betAmount < MAX_BET) {
             betAmount += 25;
-            updateBalance();
+            displayBalance();
             updateTableBets();
             updateCurrentBet();
         }
@@ -169,7 +173,7 @@ function placeBets(balance) {
     bet50.addEventListener("click", function() {
         if (balanceAmount >= 50 && betAmount + 50 <= balanceAmount && betAmount < MAX_BET) {
             betAmount += 50;
-            updateBalance();
+            displayBalance();
             updateTableBets();
             updateCurrentBet();
         }
@@ -178,7 +182,7 @@ function placeBets(balance) {
     bet100.addEventListener("click", function() {
         if (balanceAmount >= 100 && betAmount + 100 <= balanceAmount && betAmount < MAX_BET) {
             betAmount += 100;
-            updateBalance();
+            displayBalance();
             updateTableBets();
             updateCurrentBet();
         }
@@ -187,7 +191,7 @@ function placeBets(balance) {
     bet500.addEventListener("click", function() {
         if (balanceAmount >= 500 && betAmount + 500 <= balanceAmount && betAmount < MAX_BET) {
             betAmount += 500;
-            updateBalance();
+            displayBalance();
             updateTableBets();
             updateCurrentBet();
         }
@@ -198,22 +202,28 @@ function placeBets(balance) {
         if (balanceAmount >= customBetAmount && betAmount + customBetAmount <= balanceAmount && betAmount < MAX_BET) {
             balanceAmount -= customBetAmount;
             betAmount += customBetAmount;
-            updateBalance();
+            displayBalance();
             updateTableBets();
             updateCurrentBet();
         }
     });
 
-    var clearBet = document.getElementById("clearBet");
-    clearBet.addEventListener("click", function() {
-        clearBets();
-    });
-
+    var clearBetButton = document.getElementById("clearBet");
+    clearBetButton.addEventListener("click", clearBet);
 
     var bet = document.getElementById("bet");
     bet.addEventListener("click", function() {
         if (betAmount > 0  && betAmount <= balanceAmount) {
             playBlackjack();
+        }
+    });
+
+    var preselectedButtons = document.querySelectorAll(".preselected button");
+    preselectedButtons.forEach(button => {
+        if (balanceAmount < parseInt(button.innerHTML)) {
+            button.style.color = "#f16b5b";
+            button.style.border = "2px solid #f16b5b";
+            button.style.pointerEvents = "none";
         }
     });
 
@@ -246,7 +256,6 @@ function hideActionButtons() {
 function clearCards() {
     var playerHand = document.querySelector(".hand.player");
     var dealerHand = document.querySelector(".hand.dealer");
-
     playerHand.innerHTML = "";
     dealerHand.innerHTML = "";
 }
@@ -333,32 +342,27 @@ function updateHandValue(hand, handValueElement) {
     return handValue;
 }
 
+// Add event listeners outside playerTurn function
+document.getElementById("hit").addEventListener("click", function() {
+    dealCardToPlayer();
+    var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
+    if (playerValue === 21 && playerHand.length === 2) {
+        showMessage("Blackjack!");
+        Blackjack();
+    } else if (playerValue > 21) {
+        showMessage("Busted!");
+        dealerWins();
+    }
+});
+
+document.getElementById("stand").addEventListener("click", function() {
+    hideActionButtons();
+    dealerTurn();
+});
+
+// Modify playerTurn function
 function playerTurn() {
     showActionButtons();
-
-    var hit = document.getElementById("hit");
-    var stand = document.getElementById("stand");
-
-    hit.addEventListener("click", function() {
-        dealCardToPlayer();
-        var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
-        if (playerHand.some(card => card.value === 'A') && playerHand.some(card => card.value === 'J' || card.value === 'Q' || card.value === 'K')) {
-            showMessage("Blackjack!");
-            hideActionButtons();
-            Blackjack();
-            setTimeout(endGame, 5000);
-        } else if (playerValue > 21) {
-            showMessage("Busted!");
-            hideActionButtons();
-            dealerWins();
-            setTimeout(endGame, 5000);
-        }
-    });
-
-    stand.addEventListener("click", function() {
-        hideActionButtons();
-        dealerTurn();
-    });
 }
 
 function dealerTurn() {
@@ -366,7 +370,7 @@ function dealerTurn() {
     while (dealerValue < 17) {
         dealCardToDealer();
         dealerValue = updateHandValue(dealerHand, document.getElementById("dealer-value"));
-        setTimeout(500);
+        setTimeout(() => { }, 500);
     }
 
     if (dealerValue > 21) {
@@ -375,65 +379,61 @@ function dealerTurn() {
     } else {
         var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
         if (playerValue > dealerValue) {
-            showMessage("Player wins!");
+            showMessage("You win!");
             playerWins();
         } else if (playerValue < dealerValue) {
             showMessage("Dealer wins!");
             dealerWins();
         } else {
             showMessage("Push!");
+            setTimeout(() => { endGame(); }, 3000);
         }
     }
-
-    setTimeout(endGame, 5000);
 }
 
 function endGame() {
-    clearCards();
-
-    var betBlock = document.getElementById("bets");
-    betBlock.style.pointerEvents = "auto";
-    betBlock.style.opacity = "1";
-
-    var betButtons = document.querySelector(".betButtons");
-    betButtons.style.pointerEvents = "auto";
-    betButtons.style.opacity = "1";
-    betButtons.style.transform = "translateY(0)";
-
-    var betSign = document.getElementById("sign");
-    betSign.style.display = "grid";
-    betSign.style.opacity = "1";
-
-    var handValues = document.querySelector(".hand-value");
-    handValues.style.opacity = "0";
-    handValues.style.pointerEvents = "none";
-
-    hideActionButtons();
+    window.location.reload();
 }
 
-
 function playerWins() {
+    console.log("You win!")
     var balance = parseInt(localStorage.getItem("balance"));
     var betAmount = parseInt(document.getElementById("currentBet").innerHTML);
     var newBalance = balance + betAmount;
     localStorage.setItem("balance", newBalance);
-    document.getElementById("balance").innerHTML = newBalance;
+    displayBalance();
+    setTimeout(() => { endGame(); }, 3000);
 }
 
 function dealerWins() {
-    var balance = parseInt(localStorage.getItem("balance"));
-    var betAmount = parseInt(document.getElementById("currentBet").innerHTML);
+    console.log("Dealer wins!");
+
+    // Parsing balance and betAmount as numbers
+    var balance = parseInt(localStorage.getItem("balance")) || 0; // Default to 0 if balance is not set
+    var betAmount = parseInt(document.getElementById("currentBet").innerHTML) || 0; // Default to 0 if currentBet is not set
+
+    // Calculate new balance
     var newBalance = balance - betAmount;
+
+    // Update balance in localStorage and display
     localStorage.setItem("balance", newBalance);
-    document.getElementById("balance").innerHTML = newBalance;
+    displayBalance();
+
+    // Delay the end of the game for 3 seconds
+    setTimeout(() => { 
+        endGame(); 
+    }, 3000);
 }
 
+
 function Blackjack() {
+    console.log("Blackjack!")
     var balance = parseInt(localStorage.getItem("balance"));
     var betAmount = parseInt(document.getElementById("currentBet").innerHTML);
     var newBalance = balance + betAmount * 1.5;
     localStorage.setItem("balance", newBalance);
-    document.getElementById("balance").innerHTML = newBalance;
+    displayBalance();
+    setTimeout(() => { endGame(); }, 3000);
 }
 
 
@@ -445,6 +445,12 @@ placeBets();
 function playBlackjack() {
     startGame();
     shuffleDeck(deck);
+        
+    // Clear the player's hand before dealing new cards
+    playerHand = [];
+    dealerHand = [];
+
+
     dealCardToPlayer();
     setTimeout(dealCardToDealer, 500);
     playerTurn();

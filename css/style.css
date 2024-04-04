@@ -226,8 +226,8 @@ body {
   flex-direction: column;
   gap: 10px;
   position: absolute;
-  top: 2%;
-  left: 2%;
+  bottom: 2%;
+  left: 1%;
   font-size: 24px;
   font-weight: bold;
   text-align: start;
@@ -324,14 +324,30 @@ body {
   background-color: #00000090;
   backdrop-filter: blur(5px);
   border-top: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
   opacity: 1;
   transition: .3s;
 }
 
+.sign h1,
 .sign h2 {
-  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.sign h1 {
+  font-size: 92px;
+  font-weight: 100;
+}
+
+.sign h1 span {
+  font-family: "Noto Serif Makasar", serif;
+}
+
+.sign h2 {
   margin-bottom: 25%;
 }
 
