@@ -587,7 +587,7 @@ body {
     }
 }
 
-@media (max-width: 2560px) {
+@media (min-width: 2000px) {
   .table {
     width: 1440px;
     height: 810px;
