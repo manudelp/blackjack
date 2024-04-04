@@ -28,8 +28,9 @@ body {
   margin: auto;
   display: grid;
   place-items: center;
-  background-color: #0d0f14e5;
+  background-color: #0d0f1475;
   backdrop-filter: blur(5px);
+  border: 2px solid #0d0f1415;
   color: white;
   font-size: 24px;
   z-index: 10;

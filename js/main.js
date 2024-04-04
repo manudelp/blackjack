@@ -367,28 +367,36 @@ function playerTurn() {
 
 function dealerTurn() {
     var dealerValue = updateHandValue(dealerHand, document.getElementById("dealer-value"));
-    while (dealerValue < 17) {
-        dealCardToDealer();
-        dealerValue = updateHandValue(dealerHand, document.getElementById("dealer-value"));
-        setTimeout(() => { }, 500);
+    function dealCardToDealerWithDelay() {
+        setTimeout(function() {
+            dealCardToDealer();
+            dealerValue = updateHandValue(dealerHand, document.getElementById("dealer-value"));
+            if (dealerValue < 17) {
+                dealCardToDealerWithDelay();
+            }
+        }, 500);
     }
 
-    if (dealerValue > 21) {
-        showMessage("Dealer busted!");
-        playerWins();
-    } else {
-        var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
-        if (playerValue > dealerValue) {
-            showMessage("You win!");
+    dealCardToDealerWithDelay();
+
+    setTimeout(function() {
+        if (dealerValue > 21) {
+            showMessage("Dealer busted!");
             playerWins();
-        } else if (playerValue < dealerValue) {
-            showMessage("Dealer wins!");
-            dealerWins();
         } else {
-            showMessage("Push!");
-            setTimeout(() => { endGame(); }, 3000);
+            var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
+            if (playerValue > dealerValue) {
+                showMessage("You win!");
+                playerWins();
+            } else if (playerValue < dealerValue) {
+                showMessage("Dealer wins!");
+                dealerWins();
+            } else {
+                showMessage("Push!");
+                setTimeout(() => { endGame(); }, 3000);
+            }
         }
-    }
+    }, 1500);
 }
 
 function endGame() {
@@ -449,7 +457,6 @@ function playBlackjack() {
     // Clear the player's hand before dealing new cards
     playerHand = [];
     dealerHand = [];
-
 
     dealCardToPlayer();
     setTimeout(dealCardToDealer, 500);
