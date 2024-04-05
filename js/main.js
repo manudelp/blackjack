@@ -70,9 +70,7 @@ function showMessage(message){
     }, 3000);
 }
 
-// Util function to add balance
 function addBalance() {
-    // Ensure balanceAmount is a number
     const balanceAmount = parseInt(localStorage.getItem("balance")) || 0;
     const newBalance = balanceAmount + parseInt(prompt("Enter amount to add: "));
     localStorage.setItem("balance", newBalance);
