@@ -78,6 +78,10 @@ function addBalance() {
     localStorage.setItem("balance", newBalance);
     document.getElementById("balance").innerHTML = newBalance;
     window.location.reload();
+
+    var balaceButton = document.getElementById("balance").querySelector("button");
+    balaceButton.style.display = "none";
+
     return newBalance;
 }
 
