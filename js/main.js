@@ -474,7 +474,8 @@ function playBlackjack() {
 
     dealCardToPlayer();
     setTimeout(dealCardToDealer, 500);
-    playerTurn();
+    setTimeout(dealCardToPlayer, 1000);
+    setTimeout(playerTurn, 1500);
 }
 
 // if maxwidth is 512px then change .sign h2 innerHTML
