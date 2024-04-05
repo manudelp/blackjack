@@ -80,10 +80,20 @@ function addBalance() {
     window.location.reload();
 
     var balaceButton = document.querySelector(".balance-button");
+    var balanceButtonShown = localStorage(setItem("balanceButton", false));
     balaceButton.style.display = "none";
 
     return newBalance;
 }
+
+function checkIfAddedBalance() {
+    var balanceButton = document.querySelector(".balance-button");
+    var balanceButtonShown = localStorage.getItem("balanceButton");
+    if (balanceButtonShown === "false") {
+        balanceButton.style.display = "none";
+    }
+}
+checkIfAddedBalance();
 
 function admin() {
     var password = prompt("Enter password: ");
