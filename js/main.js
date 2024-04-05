@@ -81,6 +81,13 @@ function addBalance() {
     return newBalance;
 }
 
+function admin() {
+    var password = prompt("Enter password: ");
+    if (password === "admin") {
+        addBalance();
+    }
+}
+
 function eraseBalance() {
     localStorage.setItem("balance", 0);
     document.getElementById("balance").innerHTML = 0;
@@ -89,8 +96,8 @@ function eraseBalance() {
 
 function displayBalance() {
     var balanceElement = document.getElementById("balance");
-    var balance = parseInt(localStorage.getItem("balance")) || 0; // Default to 0 if balance is not set
-    balanceElement.innerHTML = balance; // Update the balance displayed on the UI
+    var balance = parseInt(localStorage.getItem("balance")) || 0;
+    balanceElement.innerHTML = balance;
 }
 
 function clearBet() {
