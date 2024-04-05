@@ -79,7 +79,7 @@ function addBalance() {
     document.getElementById("balance").innerHTML = newBalance;
     window.location.reload();
 
-    var balaceButton = document.getElementById("balance").querySelector("button");
+    var balaceButton = document.querySelector(".balance-button");
     balaceButton.style.display = "none";
 
     return newBalance;
