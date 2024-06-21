@@ -412,23 +412,30 @@ function dealerTurn() {
 
     setTimeout(function() {
         var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
+        var dealerValue = updateHandValue(dealerHand, document.getElementById("dealer-value"));
+        console.log("Player value: " + playerValue);
+        console.log("Dealer value: " + dealerValue);
+        
         if (dealerValue > 21) {
             showMessage("Dealer busted!");
             playerWins();
         } else {
-            var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
-            if (playerValue > dealerValue) {
-                showMessage("You win!");
-                playerWins();
-            } else if (playerValue < dealerValue) {
-                showMessage("Dealer wins!");
-                dealerWins();
-            } else {
-                showMessage("Push!");
-                setTimeout(() => { endGame(); }, 3000);
-            }
+            compareValues(playerValue, dealerValue);
         }
     }, 1500);
+}
+
+function compareValues(playerValue, dealerValue) {
+    if (playerValue > dealerValue) {
+        showMessage("You win!");
+        playerWins();
+    } else if (playerValue < dealerValue) {
+        showMessage("Dealer wins!");
+        dealerWins();
+    } else {
+        showMessage("Push!");
+        setTimeout(() => { endGame(); }, 3000);
+    }
 }
 
 function endGame() {
