@@ -21,8 +21,6 @@ const deck = [
 
 
 // Variables 
-
-// Message
 var displayMessage = document.querySelector(".message");
 
 // Hands
@@ -60,8 +58,10 @@ var tableBet50 = '<div class="bet bet50"><p>50</p></div>';
 var tableBet100 = '<div class="bet bet100"><p>100</p></div>';
 var tableBet500 = '<div class="bet bet500"><p>500</p></div>';
 
+var playerValue;
 
 function showMessage(message){
+    hideActionButtons();
     displayMessage.style.opacity = "1";
     document.getElementById("message").innerHTML = message;
 
@@ -70,9 +70,7 @@ function showMessage(message){
     }, 3000);
 }
 
-// Util function to add balance
 function addBalance() {
-    // Ensure balanceAmount is a number
     const balanceAmount = parseInt(localStorage.getItem("balance")) || 0;
     const newBalance = balanceAmount + parseInt(prompt("Enter amount to add: "));
     localStorage.setItem("balance", newBalance);
@@ -112,6 +110,8 @@ function updateCurrentBet() {
     currentBet.innerHTML = betAmount;
 }
 
+
+// BETS
 function placeBets() {
     function updateTableBets() {
         clearTableBets();
@@ -301,10 +301,14 @@ function startGame() {
     handValues.style.pointerEvents = "auto";
 }
 
+// Function to deal a card to the player
 function dealCardToPlayer() {
+    // Deal a card from the deck
     var card = dealCard(deck);
+    // Add the dealt card to the player's hand array
     playerHand.push(card);
 
+    // Create a new card element to display on the UI
     var cardElement = document.createElement("div");
     cardElement.classList.add("card");
     cardElement.style.animation = "dealCardPlayer 0.5s ease-in-out forwards";
@@ -313,10 +317,13 @@ function dealCardToPlayer() {
         <div class="suit">${card.suit}</div>
         <div class="number number--sideways">${card.value}</div>
     `;
+    
+    // Append the card element to the player's hand on the UI
     handElement.appendChild(cardElement);
     playerHandElement.appendChild(cardElement);
 
-    updateHandValue(playerHand, document.getElementById("player-value"));
+    // Update the hand value displayed on the UI and assign it to playerValue
+    playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
 }
 
 function dealCardToDealer() {
@@ -357,30 +364,34 @@ function updateHandValue(hand, handValueElement) {
     }
     
     handValueElement.innerHTML = handValue;
+
     return handValue;
 }
 
-// Add event listeners outside playerTurn function
+// HIT
 document.getElementById("hit").addEventListener("click", function() {
     dealCardToPlayer();
-    var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
-    if (playerValue === 21 && playerHand.length === 2) {
-        showMessage("Blackjack!");
-        Blackjack();
-    } else if (playerValue > 21) {
+    playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
+    
+    if (playerValue > 21) {
         showMessage("Busted!");
         dealerWins();
     }
 });
 
+// STAND
 document.getElementById("stand").addEventListener("click", function() {
     hideActionButtons();
     dealerTurn();
 });
 
-// Modify playerTurn function
 function playerTurn() {
     showActionButtons();
+
+    if (playerValue === 21) {
+        showMessage("Blackjack!");
+        Blackjack();
+    }
 }
 
 function dealerTurn() {
@@ -398,6 +409,7 @@ function dealerTurn() {
     dealCardToDealerWithDelay();
 
     setTimeout(function() {
+        var playerValue = updateHandValue(playerHand, document.getElementById("player-value"));
         if (dealerValue > 21) {
             showMessage("Dealer busted!");
             playerWins();
