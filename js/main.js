@@ -87,8 +87,8 @@ function eraseBalance() {
 
 function displayBalance() {
     var balanceElement = document.getElementById("balance");
-    var balance = parseInt(localStorage.getItem("balance")) || 0; // Default to 0 if balance is not set
-    balanceElement.innerHTML = balance; // Update the balance displayed on the UI
+    var balance = parseInt(localStorage.getItem("balance")) || 0;
+    balanceElement.innerHTML = balance;
 }
 
 function clearBet() {
@@ -218,6 +218,7 @@ function placeBets() {
     } else {
         repeatBetButton.style.color = "#cc0000";
         repeatBetButton.style.border = "2px solid #cc0000";
+        repeatBetButton.style.opacity = "0.5";
         repeatBetButton.style.pointerEvents = "none";
     }
 
@@ -233,6 +234,7 @@ function placeBets() {
         if (balanceAmount < parseInt(button.innerHTML)) {
             button.style.color = "#cc0000";
             button.style.border = "2px solid #cc0000";
+            button.style.opacity = "0.5";
             button.style.pointerEvents = "none";
         }
     });
